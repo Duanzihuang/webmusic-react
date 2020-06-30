@@ -1,0 +1,57 @@
+.g-bd {
+  margin: 0 auto;
+  background-color: #fff;
+  border-width: 0 1px;
+}
+
+.g-ftfix .g-bd {
+  width: 982px;
+  min-height: 100%;
+  margin-top: -75px;
+  padding-top: 75px;
+  padding-bottom: 126px;
+  box-sizing: border-box;
+}
+
+.g-wrap {
+  padding: 40px;
+}
+
+.n-for404 {
+  padding: 125px 0 0;
+  text-align: center;
+}
+
+.u-errlg-404 {
+  background-position: 0 -405px;
+}
+
+i {
+  font-style: normal;
+  text-align: left;
+  font-size: inherit;
+}
+
+.u-errlg {
+  width: 270px;
+  height: 112px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url(https://s2.music.126.net/style/web2/img/logo.png?a333245db17ff41dc587aeb5ddacbaeb)
+    no-repeat 0 9999px;
+}
+
+.u-errlg-404 {
+  background-position: 0 -405px;
+}
+
+.n-for404 .note {
+  margin-top: 35px;
+  font-size: 18px;
+  font-family: 'Microsoft Yahei';
+}
+
+.s-fc3,
+a.s-fc3:hover {
+  color: #666;
+}
