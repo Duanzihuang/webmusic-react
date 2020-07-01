@@ -106,14 +106,14 @@ export default class Discovery extends Component {
           {recommendList.map((item) => {
             return (
               <div key={item.id} className="item">
-                <div class="img-wrap" onClick={() => this.toPlayList(item.id)}>
-                  <div class="desc-wrap">
-                    <span class="desc">{item.copywriter}</span>
+                <div className="img-wrap" onClick={() => this.toPlayList(item.id)}>
+                  <div className="desc-wrap">
+                    <span className="desc">{item.copywriter}</span>
                   </div>
                   <img src={item.picUrl} alt="" />
-                  <span class="iconfont icon-play"></span>
+                  <span className="iconfont icon-play"></span>
                 </div>
-                <p class="name">{item.name}</p>
+                <p className="name">{item.name}</p>
               </div>
             )
           })}
@@ -182,7 +182,7 @@ export default class Discovery extends Component {
   }
 
   toPlayList = (id) => {
-    console.log(id)
+    this.props.history.push(`/playlist/${id}`)
   }
 
   playMusic = (id) => {

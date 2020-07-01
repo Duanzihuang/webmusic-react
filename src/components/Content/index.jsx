@@ -11,8 +11,10 @@ import {
 // 导入子组件
 import Discovery from '../../views/Discovery'
 import Playlists from '../../views/Playlists'
+import Playlist from '../../views/Playlist'
 import Songs from '../../views/Songs'
 import Mvs from '../../views/Mvs'
+import Mv from '../../views/Mv'
 import NotFound from '../../views/NotFound'
 
 export default class Content extends Component {
@@ -62,6 +64,8 @@ export default class Content extends Component {
               <Route path="/playlists" component={Playlists} />
               <Route path="/songs" component={Songs} />
               <Route path="/mvs" component={Mvs} />
+              <Route path="/playlist/:id" component={Playlist} />
+              <Route path="/mv/:id" component={Mv} />
               <Redirect exact from="/" to="/discovery" />
               <Route component={NotFound} />
             </Switch>

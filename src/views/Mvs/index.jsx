@@ -223,7 +223,7 @@ export default class Mvs extends Component {
   }
 
   toMv = (id) => {
-    console.log(id)
+    this.props.history.push(`/mv/${id}`)
   }
 
   render() {
