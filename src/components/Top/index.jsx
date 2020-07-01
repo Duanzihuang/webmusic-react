@@ -3,6 +3,10 @@ import { Input } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 
 export default class Index extends Component {
+  goToSearchPage = (e) => {
+    window.open(`#/search/${e.target.value}`, '_self')
+  }
+
   render() {
     return (
       <div className="top-container">
@@ -28,9 +32,10 @@ export default class Index extends Component {
         </div>
         <div className="right-box">
           <Input
-            size="small"
+            size="middle"
             prefix={<SearchOutlined />}
             placeholder="搜索"
+            onPressEnter={this.goToSearchPage}
           ></Input>
         </div>
       </div>

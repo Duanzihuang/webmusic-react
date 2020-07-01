@@ -10,14 +10,13 @@ import {
 import { formatCount, formatDuration } from '../../utils/format'
 import moment from 'moment'
 import { Pagination } from 'antd'
+import bus from '../../utils/bus'
 
 export default class Mv extends Component {
   constructor() {
     super()
 
     this.state = {
-      // mvId
-      mvId: null,
       // mv地址
       mvUrl: '',
       // 相似MV列表
@@ -49,12 +48,14 @@ export default class Mv extends Component {
   }
 
   componentDidMount() {
-    this.state.mvId = this.props.match.params.id
+    bus.emit('pauseMusic')
+
+    this.mvId = this.props.match.params.id
     this.getData()
   }
 
   componentWillReceiveProps(props) {
-    this.state.mvId = props.match.params.id
+    this.mvId = props.match.params.id
     this.getData()
   }
 
@@ -69,7 +70,7 @@ export default class Mv extends Component {
   // 获取MV的url
   async getMvUrlData() {
     const res = await mvUrl({
-      id: this.state.mvId,
+      id: this.mvId,
     })
 
     if (res.data.code === 200) {
@@ -82,7 +83,7 @@ export default class Mv extends Component {
   // 获取相关推荐的MV列表数据
   async getSimiMVData() {
     const res = await simiMV({
-      mvid: this.state.mvId,
+      mvid: this.mvId,
     })
 
     if (res.data.code === 200) {
@@ -95,7 +96,7 @@ export default class Mv extends Component {
   // 获取MV详情数据
   async getMvDetailData() {
     const res = await mvDetail({
-      mvid: this.state.mvId,
+      mvid: this.mvId,
     })
 
     if (res.data.code === 200) {
@@ -131,7 +132,7 @@ export default class Mv extends Component {
   // 获取热门评价数据
   async getHotCommentsData() {
     const res = await hotComments({
-      id: this.state.mvId,
+      id: this.mvId,
     })
 
     if (res.data.code === 200) {
@@ -145,7 +146,7 @@ export default class Mv extends Component {
   async getNewCommentsData() {
     const { page, limit } = this.state
     const res = await newComments({
-      id: this.state.mvId,
+      id: this.mvId,
       offset: (page - 1) * limit,
       limit,
     })

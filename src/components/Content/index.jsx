@@ -15,7 +15,11 @@ import Playlist from '../../views/Playlist'
 import Songs from '../../views/Songs'
 import Mvs from '../../views/Mvs'
 import Mv from '../../views/Mv'
+import Search from '../../views/Search'
 import NotFound from '../../views/NotFound'
+
+import bus from '../../utils/bus'
+import { getSongUrl } from '../../api/discovery'
 
 export default class Content extends Component {
   constructor() {
@@ -24,6 +28,26 @@ export default class Content extends Component {
     this.state = {
       url: '',
     }
+
+    this.audioRef = React.createRef()
+  }
+
+  componentDidMount() {
+    // 播放音乐
+    bus.on('playMusic', async (id) => {
+      const res = await getSongUrl({ id })
+
+      if (res.data.code === 200) {
+        this.setState({
+          url: res.data.data[0].url,
+        })
+      }
+    })
+
+    // 暂停音乐
+    bus.on('pauseMusic', () => {
+      this.audioRef.current.pause()
+    })
   }
 
   render() {
@@ -66,12 +90,19 @@ export default class Content extends Component {
               <Route path="/mvs" component={Mvs} />
               <Route path="/playlist/:id" component={Playlist} />
               <Route path="/mv/:id" component={Mv} />
+              <Route path="/search/:keyword" component={Search} />
               <Redirect exact from="/" to="/discovery" />
               <Route component={NotFound} />
             </Switch>
           </div>
           <div className="player">
-            <audio controls autoPlay src={this.state.url} loop></audio>
+            <audio
+              ref={this.audioRef}
+              controls
+              autoPlay
+              src={this.state.url}
+              loop
+            ></audio>
           </div>
         </div>
       </Router>

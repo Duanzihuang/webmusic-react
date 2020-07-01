@@ -172,7 +172,7 @@ export default class Playlists extends Component {
   }
 
   toPlayList = (id) => {
-    console.log(id)
+    this.props.history.push(`/playlist/${id}`)
   }
 
   onChange = (page) => {

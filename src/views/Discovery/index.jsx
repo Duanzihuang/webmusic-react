@@ -6,6 +6,7 @@ import {
   getNewsong,
   getMv,
 } from '../../api/discovery'
+import bus from '../../utils/bus'
 
 export default class Discovery extends Component {
   constructor() {
@@ -75,13 +76,11 @@ export default class Discovery extends Component {
   renderSwiper = () => {
     const { banners } = this.state
     const settings = {
-      // dots: true,
+      className: 'center',
+      // centerMode: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      // centerMode: true,
-      // centerPadding: '100px',
+      autoplay: true,
     }
     return (
       <Slider {...settings}>
@@ -106,7 +105,10 @@ export default class Discovery extends Component {
           {recommendList.map((item) => {
             return (
               <div key={item.id} className="item">
-                <div className="img-wrap" onClick={() => this.toPlayList(item.id)}>
+                <div
+                  className="img-wrap"
+                  onClick={() => this.toPlayList(item.id)}
+                >
                   <div className="desc-wrap">
                     <span className="desc">{item.copywriter}</span>
                   </div>
@@ -186,11 +188,11 @@ export default class Discovery extends Component {
   }
 
   playMusic = (id) => {
-    console.log(id)
+    bus.emit('playMusic', id)
   }
 
   toMv = (id) => {
-    console.log(id)
+    this.props.history.push(`/mv/${id}`)
   }
 
   render() {

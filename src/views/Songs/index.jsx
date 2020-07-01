@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { topSongs } from '../../api/songs'
 import { formatDuration } from '../../utils/format'
+import bus from '../../utils/bus'
 
 export default class Songs extends Component {
   constructor() {
@@ -67,11 +68,11 @@ export default class Songs extends Component {
   }
 
   playMusic = (id) => {
-    console.log(id)
+    bus.emit('playMusic', id)
   }
 
   toMV = (id) => {
-    console.log(id)
+    this.props.history.push(`/mv/${id}`)
   }
 
   render() {

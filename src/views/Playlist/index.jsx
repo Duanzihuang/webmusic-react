@@ -3,6 +3,7 @@ import { Tabs, Pagination } from 'antd'
 import moment from 'moment'
 import { playlistDetail, hotComments, newComments } from '../../api/playlist'
 import { formatDuration } from '../../utils/format'
+import bus from '../../utils/bus'
 
 const { TabPane } = Tabs
 
@@ -291,11 +292,11 @@ export default class Playlist extends Component {
   }
 
   playMusic = (id) => {
-    console.log(id)
+    bus.emit('playMusic', id)
   }
 
   toMV = (id) => {
-    console.log(id)
+    this.props.history.push(`/mv/${id}`)
   }
 
   onChange = (page) => {
