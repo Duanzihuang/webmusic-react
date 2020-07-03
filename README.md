@@ -1,68 +1,396 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 接口文档
 
-## Available Scripts
+http://huangjiangjun.top:9000/
 
-In the project directory, you can run:
+## 基地址
 
-### `yarn start`
+> 配置到本地，或者使用线上接口
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 本地基地址：http://localhost:3000
+2. 线上地址：http://huangjiangjun.top:9000/
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## 首页 - 轮播图
 
-### `yarn test`
+### 接口
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+banner
 
-### `yarn build`
+说明 : 调用此接口 , 可获取 banner( 轮播图 ) 数据
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**可选参数 :**
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+`type`:资源类型,对应以下类型,默认为 0 即PC
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+0: pc
 
-### `yarn eject`
+1: android
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2: iphone
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3: ipad
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**接口地址 :** `/banner`
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**调用例子 :** `/banner`, `/banner?type=2`
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## 首页 - 推荐歌单
 
-### Analyzing the Bundle Size
+### 接口
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+说明 : 调用此接口 , 可获取推荐歌单
 
-### Making a Progressive Web App
+**可选参数 :** `limit`: 取出数量 , 默认为 30 (不支持 offset)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+**接口地址 :** `/personalized`
 
-### Advanced Configuration
+**调用例子 :** `/personalized?limit=1`
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+## 首页 - 推荐音乐
 
-### `yarn build` fails to minify
+说明 : 调用此接口 , 可获取推荐新音乐
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+**接口地址 :** `/personalized/newsong`
+
+**调用例子 :** `/personalized/newsong`
+
+
+
+
+
+## 首页 - 推荐MV
+
+说明 : 调用此接口 , 可获取推荐 mv
+
+**接口地址 :** `/personalized/mv`
+
+**调用例子 :** `/personalized/mv`
+
+
+
+## 首页 - 播放歌曲
+
+说明 : 调用此接口 , 传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(注意:歌曲封面现在需要通过专辑内容接口获取)
+
+**必选参数 :** `ids`: 音乐 id, 如 `ids=347230`
+
+**接口地址 :** `/song/detail`
+
+**调用例子 :** `/song/detail?ids=347230`,`/song/detail?ids=347230,347231`
+
+
+
+## 首页 - 跳转歌单详情页
+
+> 路由跳转，携带id
+
+
+
+## 歌单详情 - 信息
+
+**必选参数 :** `id` : 歌单 id
+
+**可选参数 :** `s` : 歌单最近的 s 个收藏者
+
+**接口地址 :** `/playlist/detail`
+
+**调用例子 :** `/playlist/detail?id=24381616`
+
+
+
+## 歌单详情 - 热门评论
+
+说明 : 调用此接口 , 传入 type, 资源 id 可获得对应资源热门评论 ( 不需要登录 )
+
+**必选参数 :**
+
+`id` : 资源 id
+
+`tpye`: 数字 , 资源类型 , 对应歌曲 , mv, 专辑 , 歌单 , 电台, 视频对应以下类型
+
+```
+0: 歌曲
+
+1: mv
+
+2: 歌单
+
+3: 专辑
+
+4: 电台
+
+5: 视频
+```
+
+**可选参数 :** `limit`: 取出评论数量 , 默认为 20
+
+`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值
+
+`before`: 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过5000条评论的时候需要用到)
+
+**接口地址 :** `/comment/hot`
+
+**调用例子 :** `/comment/hot?id=186016&type=0`
+
+
+
+## 歌单详情 - 评论信息
+
+说明 : 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该歌单的所有评论 ( 不需要 登录 )
+
+**必选参数 :** `id`: 歌单 id
+
+**可选参数 :** `limit`: 取出评论数量 , 默认为 20
+
+`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值
+
+`before`: 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过5000条评论的时候需要用到)
+
+**接口地址 :** `/comment/playlist`
+
+**调用例子 :** `/comment/playlist?id=705123491`
+
+
+
+## 首页 - 跳转到MV详情页
+
+
+
+
+
+## MV详情 - mv地址
+
+说明 : 调用此接口 , 传入 mv id,可获取 mv 播放地址
+
+**可选参数 :** `id`: mv id
+
+**接口地址 :** `/mv/url`
+
+**调用例子 :**
+
+```
+/mv/url?id=5436712
+```
+
+
+
+## MV详情 - 推荐mv
+
+说明 : 调用此接口 , 传入 `mvid` 可获取相似 mv
+
+**必选参数 :** `mvid`: mv id
+
+**接口地址 :** `/simi/mv`
+
+**调用例子 :** `/simi/mv?mvid=5436712`
+
+
+
+
+
+## MV详情 - 评论
+
+说明 : 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该 mv 的所有评论 ( 不需要 登录 )
+
+**必选参数 :** `id`: mv id
+
+**可选参数 :** `limit`: 取出评论数量 , 默认为 20
+
+`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*20, 其中 20 为 limit 的值
+
+`before`: 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过5000条评论的时候需要用到)
+
+**接口地址 :** `/comment/mv`
+
+**调用例子 :** `/comment/mv?id=5436712`
+
+
+
+## MV详情 - MV信息
+
+说明 : 调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1004 获得 ) , 可获取对应 MV 数据 , 数据包含 mv 名字 , 歌手 , 发布时间 , mv 视频地址等数据 , 其中 mv 视频 网易做了防盗链处理 , 可能不能直接播放 , 需要播放的话需要调用 ' mv 地址' 接口
+
+**必选参数 :** `mvid`: mv 的 id
+
+**接口地址 :** `/mv/detail`
+
+**调用例子 :** `/mv/detail?mvid=5436712`
+
+
+
+
+
+## MV详情 - 歌手信息
+
+说明 : 调用此接口 , 传入歌手 id, 可获得歌手部分信息和热门歌曲
+
+**必选参数 :** `id`: 歌手 id, 可由搜索接口获得
+
+**接口地址 :** `/artists`
+
+**调用例子 :** `/artists?id=6452`
+
+
+
+## MV详情  - 点击右侧 切换
+
+
+
+## 歌单列表 - 精品歌单
+
+说明 : 调用此接口 , 可获取精品歌单
+
+**可选参数 :** 
+
+1. `limit`: 取出歌单数量 , 默认为 20
+
+2. `cat`: 歌单的标签，可选值如下
+
+```
+全部
+欧美
+华语
+流行
+说唱
+摇滚
+民谣
+电子
+轻音乐
+影视原声
+ACG
+怀旧
+治愈
+旅行
+```
+
+**接口地址 :** `/top/playlist/highquality`
+
+**调用例子 :** `http://localhost:3000/top/playlist/highquality?before=1503639064232&limit=3`
+
+
+
+## 歌单列表 - 全部歌单
+
+说明 : 调用此接口 , 可获取网友精选碟歌单
+
+**可选参数 :** 
+
+1. `order`: 可选值为 'new' 和 'hot', 分别对应最新和最热 , 默认为 'hot'
+2. `limit`:获取的个数
+3. `offset`: 偏移数量 , 用于分页 , 如 :( 页数 -1)*20, 其中 20 为 limit 的值
+
+4. `cat`: 歌单的标签, 可选值如下
+
+```
+全部
+欧美
+华语
+流行
+说唱
+摇滚
+民谣
+电子
+轻音乐
+影视原声
+ACG
+怀旧
+治愈
+旅行
+```
+
+**接口地址 :** `/top/playlist`
+
+**调用例子 :** `/top/playlist?limit=10&order=new`
+
+
+
+## 新歌 - 新歌速递
+
+说明 : 调用此接口 , 可获取新歌速递
+
+**必选参数 :**
+
+`type`: 地区类型 id,对应以下:
+
+```
+全部:0
+
+华语:7
+
+欧美:96
+
+日本:8
+
+韩国:16
+```
+
+**接口地址 :** `/top/song`
+
+**调用例子 :** `/top/song?type=96`
+
+
+
+## 新歌 - 点击播放
+
+和首页的点击播放一样
+
+
+
+## 全部MV - 全部MV
+
+说明 : 调用此接口 , 可获取全部 mv
+
+**可选参数 :**
+
+1. `area`: 地区,可选值为：全部、内地、港台、欧美、日本、韩国、不填则为全部 
+2. `type`: 类型,可选值为：全部、官方版、原生、现场版、网易出品,不填则为全部
+
+3. `order`: 排序,可选值为：上升最快、最热、最新、不填则为上升最快
+
+4. `limit`: 取出数量 , 默认为 30
+
+5. `offset`: 偏移数量 , 用于分页 , 如 :( 页数 -1)*50, 其中 50 为 limit 的值 , 默认 为 0
+
+**接口地址 :** `/mv/all`
+
+**调用例子 :** `/mv/all?area=港台`
+
+
+
+## 搜索 - 点击跳转
+
+> 非空判断，不为空跳转去搜索页
+
+.native关键字
+
+
+
+## 搜索 - 各类搜索
+
+说明 : 调用此接口 , 传入搜索关键词可以搜索该音乐 / 专辑 / 歌手 / 歌单 / 用户 , 关键词可以多个 , 以空格隔开 , 如 " 周杰伦 搁浅 "( 不需要登录 ), 搜索获取的 mp3url 不能直接用 , 可通过 `/song/url` 接口传入歌曲 id 获取具体的播放链接
+
+**必选参数 :** `keywords` : 关键词
+
+**可选参数 :** 
+
+1. `limit` : 返回数量 , 默认为 30 
+2. `offset` : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
+
+3. `type`: 搜索类型；默认为 1 即单曲 , 取值意义 :如下
+
+```
+歌曲:1
+歌单:1000
+MV:1004
+```
+
+**接口地址 :** `/search`
+
+**调用例子 :** `/search?keywords= 海阔天空`
